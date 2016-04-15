@@ -63,13 +63,19 @@ public:
     return m_url;
   }
 
-  void setMethod(HttpMethod method) {
-    m_method = method;
+  void setMethod(std::string method) {
+    if (method == "GET") //TODO: standardize case with tolower
+      m_method = GET;
+    else if (method == "POST")
+      m_method = POST;
   }
   HttpMethod getMethod() {
     return m_method;
   }
 private:
+
+  
+  
   std::string m_url;
   bool m_isAbsoluteUrl;
   HttpMethod m_method;
