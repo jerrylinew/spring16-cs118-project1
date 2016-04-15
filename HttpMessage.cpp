@@ -4,7 +4,7 @@
 
 const std::string LINE_DELIMITER = "\r\n";
 const std::string WORD_DELIMITER = " ";
-const std::string COMMAND_SUFFIX = ":";
+const std::string HEADER_DELIMITER = ":";
 
 enum HttpVersion {
   "1.0",
@@ -31,7 +31,29 @@ public:
   }
 
   void decodeHeaderLine(std::vector<char> line) {
-
+    /*
+      Sample Header Line
+      Connection: close\r\n
+     */
+    
+    std::vector<char> key, value;
+    bool foundDelimiter = false;
+    for (int i = 0; i < line.size(); i++) {
+      if (i+1 < line.size() && line[i] == '\r' && line[i+1] == '\n')
+	break;
+	  
+      if (line[i] == ':') {
+	foundDelimiter = true;
+	if (i+1 < line.size() && line[i+1] == ' ')
+	  i = i+1;
+      }
+	  
+      if (foundDelimiter)
+	key.push_back(line[i]);
+      else
+	value.push_back(line[i]);
+    }
+    setHeader(key, value);
   }
 
   void setPayLoad(std::vector<char> blob) {
