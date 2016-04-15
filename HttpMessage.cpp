@@ -1,6 +1,11 @@
 #include <string>
 #include <map>
 
+
+const std::string LINE_DELIMITER = "\r\n";
+const std::string WORD_DELIMITER = " ";
+const std::string COMMAND_SUFFIX = ":";
+
 enum HttpVersion {
   "1.0",
   "1.1"
