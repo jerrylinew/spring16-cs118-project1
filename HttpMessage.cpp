@@ -27,6 +27,13 @@ public:
     return m_header[key];
   }
 
+  HttpVersion setVersion(std::string version) {
+    if (version == "HTTP/1.1")
+      m_version = v1_1;
+    else if (version == "HTTP/1.0")
+      m_version = v1_0;
+  }
+  
   HttpVersion getVersion() {
     return m_version;
   }
