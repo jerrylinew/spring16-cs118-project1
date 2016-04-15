@@ -1,6 +1,11 @@
 #include <string>
 #include <map>
 
+enum HttpVersion {
+  "1.0",
+  "1.1"
+};
+
 class HttpMessage {
 public:
   HttpMessage() {}
@@ -15,9 +20,25 @@ public:
       return "";
     return m_header[key];
   }
-  
-private:
 
+  HttpVersion getVersion() {
+    return m_version;
+  }
+
+  void decodeHeaderLine(std::vector<char> line) {
+
+  }
+
+  void setPayLoad(std::vector<char> blob) {
+    m_payload = blob;
+  }
+
+  std::vector<char> getPayload() {
+    return m_payload;
+  }
+    
+private:
+  HttpVersion m_version;
   std::map<string, string> m_header;
-  
+  std::vector<char> m_payload;
 };
