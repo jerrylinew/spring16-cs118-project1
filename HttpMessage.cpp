@@ -1,14 +1,15 @@
 #include <string>
+#include <vector>
 #include <map>
 
 
 const std::string LINE_DELIMITER = "\r\n";
-const std::string WORD_DELIMITER = " ";
-const std::string HEADER_DELIMITER = ":";
+const char WORD_DELIMITER = ' ';
+const char HEADER_DELIMITER = ':';
 
 enum HttpVersion {
-  "1.0",
-  "1.1"
+  v1_0,
+  v1_1
 };
 
 class HttpMessage {
@@ -36,22 +37,22 @@ public:
       Connection: close\r\n
      */
     
-    std::vector<char> key, value;
+    std::string key, value;
     bool foundDelimiter = false;
     for (int i = 0; i < line.size(); i++) {
-      if (i+1 < line.size() && line[i] == '\r' && line[i+1] == '\n')
+      if (i+1 < line.size() && line[i] == LINE_DELIMITER[0] && line[i+1] == LINE_DELIMITER[1])
 	break;
 	  
-      if (line[i] == ':') {
+      if (line[i] == HEADER_DELIMITER) {
 	foundDelimiter = true;
 	if (i+1 < line.size() && line[i+1] == ' ')
 	  i = i+1;
       }
 	  
       if (foundDelimiter)
-	key.push_back(line[i]);
+	key += line[i];
       else
-	value.push_back(line[i]);
+	value += line[i];
     }
     setHeader(key, value);
   }
@@ -66,6 +67,6 @@ public:
     
 private:
   HttpVersion m_version;
-  std::map<string, string> m_header;
+  std::map<std::string, std::string> m_header;
   std::vector<char> m_payload;
 };
