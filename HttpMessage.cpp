@@ -45,8 +45,7 @@ public:
 	  
       if (line[i] == HEADER_DELIMITER) {
 	foundDelimiter = true;
-	if (i+1 < line.size() && line[i+1] == ' ')
-	  i = i+1;
+	continue;
       }
 	  
       if (foundDelimiter)
@@ -54,6 +53,9 @@ public:
       else
 	value += line[i];
     }
+
+    //TODO: strip away beginning spaces for key and value
+    
     setHeader(key, value);
   }
 
